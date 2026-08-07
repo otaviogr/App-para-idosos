@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Guardião Digital - Proteção Contra Burlas e Golpes</title>
+  <style>
+    /* --- ESTILOS BASE E VARIÁVEIS --- */
+    :root {
+      --primary-blue: #1e3a8a;
+      --secondary-blue: #1d4ed8;
+      --light-blue: #dbeafe;
+      --accent-amber: #f59e0b;
+      --light-amber: #fef3c7;
+      --danger-red: #dc2626;
+      --light-red: #fee2e2;
+      --success-green: #059669;
+      --light-green: #d1fae5;
+      --purple: #7e22ce;
+      --light-purple: #f3e8ff;
+      --bg-slate: #f1f5f9;
+      --card-bg: #ffffff;
+      --text-dark: #0f172a;
+      
+      /* Tamanho base do texto (dinâmico) */
+      --font-size-base: 18px;
+      --font-size-title: 1.8rem;
+      --font-size-sub: 1.3rem;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    }
+
+    body {
+      background-color: var(--bg-slate);
+      color: var(--text-dark);
+      font-size: var(--font-size-base);
+      line-height: 1.5;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* --- ACESSIBILIDADE DE FONTE --- */
+    body.font-normal {
+      --font-size-base: 16px;
+      --font-size-title: 1.5rem;
+      --font-size-sub: 1.15rem;
+    }
+    body.font-large {
+      --font-size-base: 19px;
+      --font-size-title: 1.8rem;
+      --font-size-sub: 1.3rem;
+    }
+    body.font-xlarge {
+      --font-size-base: 22px;
+      --font-size-title: 2.2rem;
+      --font-size-sub: 1.5rem;
+    }
+
+    /* --- CABEÇALHO --- */
+    header {
+      background-color: var(--primary-blue);
+      color: white;
+      padding: 12px 16px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .header-container {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+    }
+
+    .logo-icon {
+      background-color: var(--accent-amber);
+      color: #0f172a;
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+
+    .accessibility-controls {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background-color: #1e293b;
+      padding: 6px 12px;
+      border-radius: 12px;
+    }
+
+    .btn-audio {
+      background-color: var(--success-green);
+      color: white;
+      border: none;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.9rem;
+    }
+
+    .btn-audio.speaking {
+      background-color: var(--accent-amber);
+      color: #0f172a;
+      animation: pulse 1s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { opacity: 0.8; }
+      to { opacity: 1; }
+    }
+
+    .font-size-group {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background-color: #0f172a;
+      padding: 4px;
+      border-radius: 8px;
+    }
+
+    .btn-font {
+      background: none;
+      border: none;
+      color: white;
+      padding: 4px 8px;
+      font-weight: bold;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .btn-font.active {
+      background-color: var(--accent-amber);
+      color: #0f172a;
+    }
+
+    /* --- NAVEGAÇÃO POR ABAS --- */
+    nav {
+      background-color: white;
+      border-bottom: 2px solid #e2e8f0;
+      position: sticky;
+      top: 65px;
+      z-index: 90;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    .nav-container {
+      max-width: 900px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-around;
+      overflow-x: auto;
+      padding: 6px;
+    }
+
+    .nav-btn {
+      background: none;
+      border: 2px solid transparent;
+      padding: 8px 12px;
+      border-radius: 12px;
+      font-weight: bold;
+      color: #475569;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 80px;
+      font-size: 0.85rem;
+      transition: all 0.2s;
+    }
+
+    .nav-btn span.icon {
+      font-size: 1.4rem;
+      margin-bottom: 2px;
+    }
+
+    .nav-btn.active {
+      background-color: var(--light-blue);
+      color: var(--primary-blue);
+      border-color: var(--secondary-blue);
+    }
+
+    /* --- CONTEÚDO PRINCIPAL --- */
+    main {
+      max-width: 900px;
+      width: 100%;
+      margin: 20px auto;
+      padding: 0 16px;
+      flex: 1;
+    }
+
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* --- CARDS E ELEMENTOS COMUNS --- */
+    .card {
+      background-color: var(--card-bg);
+      border-radius: 20px;
+      padding: 24px;
+      border: 1px solid #e2e8f0;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      margin-bottom: 20px;
+    }
+
+    .banner {
+      background: linear-gradient(135deg, var(--primary-blue), #3b82f6);
+      color: white;
+      border-radius: 24px;
+      padding: 28px;
+      margin-bottom: 20px;
+      box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    .banner-tag {
+      background-color: var(--accent-amber);
+      color: #0f172a;
+      font-weight: 900;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      display: inline-block;
+      margin-bottom: 12px;
+    }
+
+    h2 {
+      font-size: var(--font-size-title);
+      margin-bottom: 12px;
+      line-height: 1.2;
+    }
+
+    h3 {
+      font-size: var(--font-size-sub);
+      margin-bottom: 8px;
+    }
+
+    p {
+      margin-bottom: 12px;
+    }
+
+    .btn-action {
+      background-color: var(--accent-amber);
+      color: #0f172a;
+      border: none;
+      padding: 12px 20px;
+      border-radius: 14px;
+      font-size: 1.05rem;
+      font-weight: bold;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+      margin-right: 8px;
+      margin-top: 8px;
+    }
+
+    .btn-action.white {
+      background-color: white;
+      color: var(--primary-blue);
+    }
+
+    .btn-action.red {
+      background-color: var(--danger-red);
+      color: white;
+    }
+
+    /* --- ATALHOS NA HOME --- */
+    .grid-shortcuts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+
+    .shortcut-card {
+      padding: 20px;
+      border-radius: 20px;
+      border: 2px solid;
+      cursor: pointer;
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      transition: transform 0.2s;
+    }
+
+    .shortcut-card:hover {
+      transform: translateY(-2px);
+    }
+
+    .shortcut-card.amber {
+      background-color: var(--light-amber);
+      border-color: var(--accent-amber);
+    }
+
+    .shortcut-card.blue {
+      background-color: var(--light-blue);
+      border-color: var(--secondary-blue);
+    }
+
+    .icon-box {
+      font-size: 2rem;
+      background: white;
+      padding: 10px;
+      border-radius: 16px;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+
+    /* --- REGRAS DE OURO --- */
+    .rule-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      background-color: #f8fafc;
+      padding: 16px;
+      border-radius: 16px;
+      margin-bottom: 10px;
+      border-left: 5px solid;
+    }
+
+    .rule-number {
+      background-color: var(--primary-blue);
+      color: white;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    /* --- INTERFACE DO DETECTOR DE GOLPES --- */
+    .option-btn {
+      width: 100%;
+      text-align: left;
+      background-color: #f8fafc;
+      border: 2px solid #cbd5e1;
+      padding: 16px;
+      border-radius: 16px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .option-btn:hover {
+      border-color: var(--accent-amber);
+      background-color: var(--light-amber);
+    }
+
+    .result-box {
+      padding: 24px;
+      border-radius: 20px;
+      color: white;
+      margin-top: 16px;
+    }
+
+    .result-high {
+      background-color: var(--danger-red);
+    }
+
+    .result-medium {
+      background-color: var(--accent-amber);
+      color: #0f172a;
+    }
+
+    .result-low {
+      background-color: var(--success-green);
+    }
+
+    /* --- LISTA DE GOLPES --- */
+    .golpe-card {
+      border-radius: 20px;
+      border: 1px solid #cbd5e1;
+      background-color: white;
+      margin-bottom: 16px;
+      overflow: hidden;
+    }
+
+    .golpe-header {
+      background-color: #f8fafc;
+      padding: 16px;
+      border-bottom: 1px solid #e2e8f0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .golpe-body {
+      padding: 20px;
+    }
+
+    .box-alert {
+      background-color: var(--light-amber);
+      border-left: 4px solid var(--accent-amber);
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin: 12px 0;
+    }
+
+    .box-protect {
+      background-color: var(--light-green);
+      border-left: 4px solid var(--success-green);
+      padding: 12px 16px;
+      border-radius: 12px;
+      margin: 12px 0;
+    }
+
+    /* --- EMERGENCIAL / SOCORRO --- */
+    .emergency-step {
+      display: flex;
+      gap: 16px;
+      padding: 16px;
+      border-radius: 16px;
+      margin-bottom: 12px;
+      border-left: 6px solid;
+    }
+
+    .phone-card {
+      background-color: #f1f5f9;
+      padding: 16px;
+      border-radius: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 12px;
+      border: 1px solid #cbd5e1;
+    }
+
+    .phone-number {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: var(--danger-red);
+    }
+
+    /* --- MODAL DE EMERGÊNCIA --- */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(15, 23, 42, 0.85);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+
+    .modal-box {
+      background-color: white;
+      border-radius: 24px;
+      max-width: 650px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      border: 4px solid var(--danger-red);
+      box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+      padding: 24px;
+      position: relative;
+      transform: translateY(20px);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.active .modal-box {
+      transform: translateY(0);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 2px solid #fee2e2;
+      padding-bottom: 12px;
+      margin-bottom: 16px;
+    }
+
+    .btn-close-modal {
+      background-color: #f1f5f9;
+      border: 2px solid #cbd5e1;
+      color: #0f172a;
+      font-size: 1.5rem;
+      font-weight: bold;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s;
+    }
+
+    .btn-close-modal:hover {
+      background-color: var(--danger-red);
+      color: white;
+      border-color: var(--danger-red);
+    }
+
+    .modal-quick-call {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 10px;
+      margin-top: 16px;
+      margin-bottom: 16px;
+    }
+
+    /* --- RODAPÉ --- */
+    footer {
+      background-color: #1e293b;
+      color: #94a3b8;
+      text-align: center;
+      padding: 20px;
+      margin-top: auto;
+      font-size: 0.9rem;
+    }
+  </style>
+</head>
+<body class="font-large">
+
+  <!-- BARRA SUPERIOR E ACESSIBILIDADE -->
+  <header>
+    <div class="header-container">
+      <div class="logo" onclick="switchTab('home')">
+        <span class="logo-icon">🛡️</span>
+        <div>
+          <h1 style="font-size: 1.4rem; font-weight: 800;">Guardião Digital</h1>
+          <p style="font-size: 0.8rem; color: #93c5fd;">Proteção simples contra fraudes</p>
+        </div>
+      </div>
+
+      <div class="accessibility-controls">
+        <button id="btnAudio" class="btn-audio" onclick="toggleAudio()">
+          🔊 <span id="audioText">Ouvir Voz</span>
+        </button>
+
+        <div class="font-size-group">
+          <span style="font-size: 0.75rem; color: #93c5fd; padding: 0 4px;">Texto:</span>
+          <button class="btn-font" onclick="setFontSize('normal')">A</button>
+          <button class="btn-font active" onclick="setFontSize('large')">A+</button>
+          <button class="btn-font" onclick="setFontSize('xlarge')">A++</button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- MENU DE NAVEGAÇÃO -->
+  <nav>
+    <div class="nav-container">
+      <button class="nav-btn active" id="nav-home" onclick="switchTab('home')">
+        <span class="icon">🏠</span>
+        <span>Início</span>
+      </button>
+
+      <button class="nav-btn" id="nav-detector" onclick="switchTab('detector')">
+        <span class="icon">🔎</span>
+        <span>É Golpe?</span>
+      </button>
+
+      <button class="nav-btn" id="nav-golpes" onclick="switchTab('golpes')">
+        <span class="icon">📱</span>
+        <span>Guia Golpes</span>
+      </button>
+
+      <button class="nav-btn" id="nav-quiz" onclick="switchTab('quiz')">
+        <span class="icon">🎯</span>
+        <span>Treino</span>
+      </button>
+
+      <button class="nav-btn" id="nav-socorro" onclick="switchTab('socorro')">
+        <span class="icon">🚨</span>
+        <span>SOCORRO</span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main>
+
+    <!-- TAB 1: INÍCIO -->
+    <section id="tab-home" class="tab-content active">
+      <div class="banner">
+        <span class="banner-tag">Aprenda a se Proteger</span>
+        <h2>A sua segurança online começa com informação simples!</h2>
+        <p>Aprenda a reconhecer mensagens perigosas no telemóvel e chamadas falsas com tranquilidade e facilidade.</p>
+        
+        <div style="margin-top: 16px;">
+          <button class="btn-action" onclick="speakText('Bem-vindo ao Guardião Digital! Este site ajuda a evitar fraudes na internet, no WhatsApp e no telefone. Se tiver dúvidas sobre uma mensagem ou chamada, toque no botão amarelo É Golpe para testar.')">
+            🔊 Ouvir Instruções
+          </button>
+          <button class="btn-action white" onclick="switchTab('detector')">
+            🔎 Testar Suspeita
+          </button>
+        </div>
+      </div>
+
+      <div class="grid-shortcuts">
+        <div class="shortcut-card amber" onclick="switchTab('detector')">
+          <div class="icon-box">🔎</div>
+          <div>
+            <h3>Em dúvida sobre algo?</h3>
+            <p>Carregue aqui e responda a 4 perguntas para saber se é perigoso.</p>
+          </div>
+        </div>
+
+        <div class="shortcut-card blue" onclick="switchTab('golpes')">
+          <div class="icon-box">📱</div>
+          <div>
+            <h3>Golpes Mais Comuns</h3>
+            <p>Falso filho no WhatsApp, chamada do banco e clonagem.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+          <h2>🔒 3 Regras de Ouro da Segurança</h2>
+          <button class="btn-audio" onclick="speakText('As três regras de ouro da segurança são: Primeiramente, nunca diga as suas palavras-passe a ninguém. Em segundo lugar, nunca faça transferências com pressa. Em terceiro lugar, ligue para o número antigo do seu familiar para confirmar qualquer pedido de dinheiro.')">
+            🔊 Ouvir
+          </button>
+        </div>
+
+        <div class="rule-item" style="border-color: var(--success-green);">
+          <div class="rule-number">1</div>
+          <div>
+            <strong>NUNCA partilhe as suas palavras-passe</strong> ou códigos enviados por SMS para o telemóvel com ninguém.
+          </div>
+        </div>
+
+        <div class="rule-item" style="border-color: var(--accent-amber);">
+          <div class="rule-number">2</div>
+          <div>
+            <strong>A PRESSA é inimiga da segurança.</strong> Os burlões criam urgência para impedir que pense. Pare e respire!
+          </div>
+        </div>
+
+        <div class="rule-item" style="border-color: var(--secondary-blue);">
+          <div class="rule-number">3</div>
+          <div>
+            <strong>LIGUE para o número antigo</strong> antes de realizar qualquer transferência para familiares ou amigos.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 2: DETECTOR ("É GOLPE?") -->
+    <section id="tab-detector" class="tab-content">
+      <div class="card" style="background-color: var(--light-amber); border-color: var(--accent-amber); text-align: center;">
+        <span style="font-size: 3rem;">🔎</span>
+        <h2>Verificador Rápido: "É Golpe?"</h2>
+        <p>Responda às perguntas abaixo sobre a mensagem ou chamada que recebeu.</p>
+        <button class="btn-action" onclick="speakText('Verificador rápido de fraudes. Responda às perguntas seguintes para avaliar se o que aconteceu é uma tentativa de burla.')">
+          🔊 Ouvir Ajuda
+        </button>
+      </div>
+
+      <div class="card" id="detectorQuizBox">
+        <div style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 12px; color: #64748b;">
+          <span id="detectorStepText">Pergunta 1 de 4</span>
+        </div>
+
+        <h3 id="detectorQuestion" style="margin-bottom: 16px;">A carregar pergunta...</h3>
+
+        <button class="btn-audio" style="margin-bottom: 16px;" onclick="speakText(document.getElementById('detectorQuestion').innerText)">
+          🔊 Ouvir esta pergunta
+        </button>
+
+        <div id="detectorOptions">
+          <!-- Opções geradas via JS -->
+        </div>
+      </div>
+
+      <div id="detectorResult" class="card" style="display: none;">
+        <!-- Resultado exibido via JS -->
+      </div>
+    </section>
+
+    <!-- TAB 3: GUIA DOS GOLPES -->
+    <section id="tab-golpes" class="tab-content">
+      <div class="card" style="background-color: var(--light-blue); border-color: var(--secondary-blue);">
+        <h2>📱 Guia dos Golpes Mais Frequentes</h2>
+        <p>Aprenda como funcionam as burlas mais comuns e saiba como defender-se.</p>
+      </div>
+
+      <div id="golpesList">
+        <!-- Lista de Golpes gerada via JS -->
+      </div>
+    </section>
+
+    <!-- TAB 4: TREINO / QUIZ -->
+    <section id="tab-quiz" class="tab-content">
+      <div class="card" style="background-color: var(--light-purple); border-color: var(--purple); text-align: center;">
+        <span style="font-size: 3rem;">🎯</span>
+        <h2>Jogo de Treino</h2>
+        <p>Teste os seus conhecimentos com casos reais do dia a dia.</p>
+      </div>
+
+      <div class="card" id="quizBox">
+        <div style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 12px; color: #64748b;">
+          <span id="quizStepText">Desafio 1</span>
+          <span id="quizScoreText" style="color: var(--purple);">Pontuação: 0</span>
+        </div>
+
+        <h3 id="quizQuestion" style="margin-bottom: 16px;">A carregar desafio...</h3>
+
+        <button class="btn-audio" style="margin-bottom: 16px;" onclick="speakText(document.getElementById('quizQuestion').innerText)">
+          🔊 Ouvir o desafio
+        </button>
+
+        <div id="quizOptions">
+          <!-- Opções geradas via JS -->
+        </div>
+
+        <div id="quizFeedback" class="box-protect" style="display: none; margin-top: 16px;">
+          <p id="quizFeedbackText" style="font-weight: bold;"></p>
+          <button class="btn-action" style="background-color: var(--purple); color: white;" onclick="nextQuiz()">
+            Próximo Desafio ➔
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- TAB 5: SOCORRO -->
+    <section id="tab-socorro" class="tab-content">
+      <div class="card" style="background-color: var(--danger-red); color: white;">
+        <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+          <div>
+            <h2>🚨 Fui Vítima de Golpe: O que fazer?</h2>
+            <p>Mantenha a calma. Siga este passo a passo para proteger o seu dinheiro.</p>
+          </div>
+          <button class="btn-audio" style="background: rgba(255,255,255,0.2);" onclick="speakText('Mantenha a calma. Se foi vítima de uma burla, siga estes passos: Primeiro, contacte o seu banco para bloquear a conta. Segundo, faça uma queixa na polícia. Terceiro, avise a sua família.')">
+            🔊 Ouvir
+          </button>
+        </div>
+
+        <!-- Botão para Abrir o Modal de Emergência -->
+        <div style="margin-top: 16px;">
+          <button class="btn-action" style="background-color: white; color: var(--danger-red); font-size: 1.15rem; width: 100%; justify-content: center; padding: 16px; font-weight: 800;" onclick="openEmergencyModal()">
+            🚨 ABRIR PLANO DE AÇÃO DE EMERGÊNCIA
+          </button>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="emergency-step" style="background-color: var(--light-red); border-color: var(--danger-red);">
+          <div class="rule-number" style="background-color: var(--danger-red);">1</div>
+          <div>
+            <h3>Ligue Imediatamente para o Seu Banco</h3>
+            <p>Solicite o <strong>bloqueio imediato do acesso, cartões e transferências</strong>. Informe que foi vítima de uma fraude.</p>
+          </div>
+        </div>
+
+        <div class="emergency-step" style="background-color: var(--light-amber); border-color: var(--accent-amber);">
+          <div class="rule-number" style="background-color: var(--accent-amber); color: #0f172a;">2</div>
+          <div>
+            <h3>Registe uma Queixa na Polícia</h3>
+            <p>Dirija-se à esquadra mais próxima para registar a ocorrência e guarde o comprovativo.</p>
+          </div>
+        </div>
+
+        <div class="emergency-step" style="background-color: var(--light-blue); border-color: var(--secondary-blue);">
+          <div class="rule-number" style="background-color: var(--secondary-blue);">3</div>
+          <div>
+            <h3>Avise a Família e Amigos</h3>
+            <p>Se o seu WhatsApp foi clonado, peça a um familiar para avisar os contactos de que não deve enviar dinheiro em seu nome.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h3>Telefones Úteis de Emergência</h3>
+
+        <div class="phone-card">
+          <div>
+            <strong>Polícia (Urgências)</strong>
+            <div class="phone-number">112</div>
+          </div>
+          <a href="tel:112" class="btn-action red" style="text-decoration: none;">📞 Ligar</a>
+        </div>
+
+        <div class="phone-card">
+          <div>
+            <strong>Linha d'Apoio à Vítima (APAV)</strong>
+            <div class="phone-number" style="color: var(--secondary-blue);">116 006</div>
+          </div>
+          <a href="tel:116006" class="btn-action" style="background-color: var(--secondary-blue); color: white; text-decoration: none;">📞 Ligar</a>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL DE SOCORRO / EMERGÊNCIA -->
+  <div id="emergencyModal" class="modal-overlay" onclick="closeModalOnOverlay(event)">
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+      
+      <!-- Cabeçalho do Modal -->
+      <div class="modal-header">
+        <h2 id="modalTitle" style="color: var(--danger-red); font-weight: 800; font-size: 1.5rem; margin: 0; display: flex; align-items: center; gap: 8px;">
+          🚨 PLANO DE AÇÃO IMEDIATA
+        </h2>
+        <button class="btn-close-modal" onclick="closeEmergencyModal()" aria-label="Fechar Janela">✕</button>
+      </div>
+
+      <p style="font-weight: bold; color: #334155; margin-bottom: 16px;">
+        Se acabou de ser vítima de um golpe ou enviou dinheiro por engano, execute estes passos sem perder tempo:
+      </p>
+
+      <!-- Passos do Modal -->
+      <div class="emergency-step" style="background-color: var(--light-red); border-color: var(--danger-red);">
+        <div class="rule-number" style="background-color: var(--danger-red);">1</div>
+        <div>
+          <h3 style="color: var(--danger-red); font-weight: bold;">Ligue para o seu Banco AGORA!</h3>
+          <p>Peça o <strong>bloqueio imediato de contas, cartões e do seu acesso digital</strong>. Peça também o reembolso de transferências por fraude.</p>
+        </div>
+      </div>
+
+      <div class="emergency-step" style="background-color: var(--light-amber); border-color: var(--accent-amber);">
+        <div class="rule-number" style="background-color: var(--accent-amber); color: #0f172a;">2</div>
+        <div>
+          <h3 style="color: #78350f; font-weight: bold;">Faça uma Queixa na Polícia</h3>
+          <p>Ligue para o <strong>112</strong> ou vá à esquadra da PSP/GNR mais próxima para formalizar a queixa.</p>
+        </div>
+      </div>
+
+      <!-- Chamada Rápida do Modal -->
+      <div class="modal-quick-call">
+        <a href="tel:112" class="btn-action red" style="text-decoration: none; justify-content: center; margin: 0; padding: 14px;">
+          📞 Ligar para a Polícia (112)
+        </a>
+        <a href="tel:116006" class="btn-action" style="background-color: var(--secondary-blue); color: white; text-decoration: none; justify-content: center; margin: 0; padding: 14px;">
+          📞 Apoio à Vítima (116 006)
+        </a>
+      </div>
+
+      <!-- Dica de Captura de Ecrã -->
+      <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; border-radius: 12px; margin-bottom: 16px;">
+        <p style="margin: 0; font-size: 0.95rem; color: #475569;">
+          💡 <strong>Importante:</strong> Guarde ou tire capturas de ecrã (print screen) de todas as conversas, números e comprovativos do burlão.
+        </p>
+      </div>
+
+      <!-- Rodapé do Modal -->
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; border-top: 1px solid #e2e8f0; padding-top: 16px;">
+        <button class="btn-audio" onclick="speakText('Atenção ao plano de emergência! Primeiro: ligue já para o seu banco e peça o bloqueio imediato de contas e cartões. Segundo: contacte a polícia no número 112 e apresente queixa.')">
+          🔊 Ouvir Alerta
+        </button>
+
+        <button class="btn-action red" onclick="closeEmergencyModal()" style="margin: 0;">
+          ✓ Compreendi os Passos
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- RODAPÉ -->
+  <footer>
+    <p><strong>Guardião Digital</strong> • Aplicação de Apoio à Terceira Idade</p>
+    <p>Este site é gratuito e educativo. Nunca partilhe palavras-passe nem dados pessoais.</p>
+  </footer>
+
+  <!-- SCRIPT LÓGICA E INTERATIVIDADE -->
+  <script>
+    /* --- ESTADO GLOBAL --- */
+    let audioEnabled = true;
+    let isSpeaking = false;
+    let currentTab = 'home';
+
+    /* --- SÍNTESE DE VOZ --- */
+    function speakText(text) {
+      if (!audioEnabled || !('speechSynthesis' in window)) return;
+      
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'pt-PT';
+      utterance.rate = 0.9; // Leitura ligeiramente mais lenta
+
+      const btnAudio = document.getElementById('btnAudio');
+
+      utterance.onstart = () => {
+        isSpeaking = true;
+        if(btnAudio) btnAudio.classList.add('speaking');
+      };
+
+      utterance.onend = () => {
+        isSpeaking = false;
+        if(btnAudio) btnAudio.classList.remove('speaking');
+      };
+
+      utterance.onerror = () => {
+        isSpeaking = false;
+        if(btnAudio) btnAudio.classList.remove('speaking');
+      };
+
+      window.speechSynthesis.speak(utterance);
+    }
+
+    function stopSpeaking() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        isSpeaking = false;
+        const btnAudio = document.getElementById('btnAudio');
+        if(btnAudio) btnAudio.classList.remove('speaking');
+      }
+    }
+
+    function toggleAudio() {
+      if (isSpeaking) {
+        stopSpeaking();
+      } else {
+        audioEnabled = !audioEnabled;
+        const audioText = document.getElementById('audioText');
+        if (audioEnabled) {
+          audioText.innerText = "Ouvir Voz";
+          speakText("Voz de apoio ativada.");
+        } else {
+          audioText.innerText = "Voz Desativada";
+        }
+      }
+    }
+
+    /* --- CONTROLO DO TAMANHO DA FONTE --- */
+    function setFontSize(size) {
+      document.body.className = '';
+      document.body.classList.add('font-' + size);
+
+      document.querySelectorAll('.btn-font').forEach(btn => btn.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+
+    /* --- NAVEGAÇÃO ENTRE ABAS --- */
+    function switchTab(tabId) {
+      stopSpeaking();
+      currentTab = tabId;
+
+      document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+
+      document.getElementById('tab-' + tabId).classList.add('active');
+      document.getElementById('nav-' + tabId).classList.add('active');
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    /* --- MODAL DE EMERGÊNCIA --- */
+    function openEmergencyModal() {
+      stopSpeaking();
+      const modal = document.getElementById('emergencyModal');
+      if (modal) {
+        modal.classList.add('active');
+        speakText("Atenção! Plano de emergência ativado. Ligue já para o seu banco e solicite o bloqueio imediato das suas contas e cartões.");
+      }
+    }
+
+    function closeEmergencyModal() {
+      stopSpeaking();
+      const modal = document.getElementById('emergencyModal');
+      if (modal) {
+        modal.classList.remove('active');
+      }
+    }
+
+    function closeModalOnOverlay(event) {
+      if (event.target.classList.contains('modal-overlay')) {
+        closeEmergencyModal();
+      }
+    }
+
+    // Fechar modal ao premir a tecla ESC
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        closeEmergencyModal();
+      }
+    });
+
+    /* --- DADOS: DETECTOR DE GOLPES --- */
+    const detectorQuestions = [
+      {
+        id: 'urgencia',
+        pergunta: '1. Estão a pressionar com urgência, dizendo que terá um prejuízo imediato se não responder rápido?',
+        opcoes: [
+          { texto: 'Sim, estão a apressar muito', peso: 3 },
+          { texto: 'Não, estão com calma', peso: 0 }
+        ]
+      },
+      {
+        id: 'dinheiro',
+        pergunta: '2. Pediram para realizar uma transferência, pagamento ou envio de dinheiro agora?',
+        opcoes: [
+          { texto: 'Sim, pediram envio de dinheiro', peso: 4 },
+          { texto: 'Não pediram dinheiro', peso: 0 }
+        ]
+      },
+      {
+        id: 'senha',
+        pergunta: '3. Pediram a sua palavra-passe, código enviado por SMS ou fotografia do documento/rosto?',
+        opcoes: [
+          { texto: 'Sim, pediram dados de segurança', peso: 5 },
+          { texto: 'Não pediram códigos nem palavras-passe', peso: 0 }
+        ]
+      },
+      {
+        id: 'contato',
+        pergunta: '4. É um número novo no WhatsApp ou alguém que diz ser do seu banco?',
+        opcoes: [
+          { texto: 'Sim, é um número novo ou chamada inesperada', peso: 3 },
+          { texto: 'Não, é um contacto conhecido', peso: 0 }
+        ]
+      }
+    ];
+
+    let currentDetectorStep = 0;
+    let detectorAnswers = {};
+
+    function renderDetectorQuestion() {
+      const q = detectorQuestions[currentDetectorStep];
+      document.getElementById('detectorStepText').innerText = `Pergunta ${currentDetectorStep + 1} de ${detectorQuestions.length}`;
+      document.getElementById('detectorQuestion').innerText = q.pergunta;
+
+      const container = document.getElementById('detectorOptions');
+      container.innerHTML = '';
+
+      q.opcoes.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerHTML = `<span>${opt.texto}</span> <span>➔</span>`;
+        btn.onclick = () => {
+          detectorAnswers[q.id] = opt.peso;
+          currentDetectorStep++;
+          if (currentDetectorStep < detectorQuestions.length) {
+            renderDetectorQuestion();
+          } else {
+            showDetectorResult();
+          }
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    function showDetectorResult() {
+      document.getElementById('detectorQuizBox').style.display = 'none';
+      const resultBox = document.getElementById('detectorResult');
+      resultBox.style.display = 'block';
+
+      let score = 0;
+      Object.values(detectorAnswers).forEach(v => score += v);
+
+      if (score >= 6) {
+        resultBox.className = 'card result-box result-high';
+        resultBox.innerHTML = `
+          <h2>🚨 ALTO RISCO DE GOLPE!</h2>
+          <p style="font-size: 1.2rem; font-weight: bold;">Existem fortes indícios de tentativa de fraude. Não faça transferências, não envie dados e desligue a chamada imediatamente!</p>
+          <button class="btn-action white" onclick="resetDetector()">🔄 Fazer Novo Teste</button>
+          <button class="btn-action red" onclick="switchTab('socorro'); openEmergencyModal();">🚨 Abrir Plano de Emergência</button>
+        `;
+        speakText("Atenção! Risco altíssimo de golpe. Não envie dinheiro nem dados pessoais.");
+      } else if (score >= 3) {
+        resultBox.className = 'card result-box result-medium';
+        resultBox.innerHTML = `
+          <h2>⚠️ ATENÇÃO: SITUAÇÃO SUSPEITA</h2>
+          <p style="font-size: 1.2rem; font-weight: bold;">Esta situação é bastante suspeita. Converse com um familiar ou contacte a sua instituição bancária antes de tomar qualquer atitude.</p>
+          <button class="btn-action white" onclick="resetDetector()">🔄 Fazer Novo Teste</button>
+        `;
+        speakText("Atenção. Situação muito suspeita. Fale com um familiar antes de fazer qualquer coisa.");
+      } else {
+        resultBox.className = 'card result-box result-low';
+        resultBox.innerHTML = `
+          <h2>✅ APARENTEMENTE SEGURO</h2>
+          <p style="font-size: 1.2rem; font-weight: bold;">As respostas não indicam o padrão clássico de burla imediata, mas lembre-se: nunca partilhe palavras-passe com ninguém.</p>
+          <button class="btn-action white" onclick="resetDetector()">🔄 Fazer Novo Teste</button>
+        `;
+        speakText("Situação com baixo risco aparente. Mas mantenha sempre a prudência.");
+      }
+    }
+
+    function resetDetector() {
+      currentDetectorStep = 0;
+      detectorAnswers = {};
+      document.getElementById('detectorResult').style.display = 'none';
+      document.getElementById('detectorQuizBox').style.display = 'block';
+      renderDetectorQuestion();
+    }
+
+    /* --- DADOS: GUIA DOS GOLPES --- */
+    const golpesData = [
+      {
+        titulo: 'Golpe do Falso Filho / Parente',
+        icone: '📱',
+        descricao: 'Alguém envia uma mensagem de um número desconhecido a fingir ser um familiar que mudou de número e precisa de dinheiro urgente.',
+        sinais: ['Foto do parente num número desconhecido', 'Diz que o telemóvel avariou', 'Pede dinheiro urgente'],
+        comoEvitar: 'Nunca envie dinheiro! Ligue para o número antigo do seu familiar para confirmar.',
+        audio: 'Golpe do Falso Filho. Um burlão usa a foto do seu familiar e pede dinheiro urgente. Confirme sempre pelo número de telefone antigo.'
+      },
+      {
+        titulo: 'Falsa Chamada do Banco',
+        icone: '📞',
+        descricao: 'Recebe uma chamada a informar sobre uma compra suspeita e pedem confirmação de dados ou transferência de segurança.',
+        sinais: ['Chamada com tom de ameaça de bloqueio da conta', 'Pedem códigos SMS ou palavras-passe'],
+        comoEvitar: 'Desligue imediatamente! Os bancos nunca pedem palavras-passe por chamada telefónica.',
+        audio: 'Falsa Chamada do Banco. Desligue imediatamente. Os bancos nunca solicitam palavras-passe pelo telefone.'
+      },
+      {
+        titulo: 'Golpe da Maquininha de Cartão',
+        icone: '🎁',
+        descricao: 'Um estafeta traz um presente inesperado e cobra uma pequena taxa de entrega num terminal de pagamento com o ecrã danificado.',
+        sinais: ['Ecrã da máquina apagado ou ilegível', 'Cobram um valor elevado sem que perceba'],
+        comoEvitar: 'Não aceite entregas não solicitadas. Se o ecrã do terminal estiver danificado, não introduza o seu PIN.',
+        audio: 'Golpe do Terminal de Pagamento. Não digite o seu PIN se o ecrã da máquina de cartão estiver danificado ou apagado.'
+      }
+    ];
+
+    function renderGolpes() {
+      const container = document.getElementById('golpesList');
+      container.innerHTML = '';
+
+      golpesData.forEach(g => {
+        const card = document.createElement('div');
+        card.className = 'golpe-card';
+        card.innerHTML = `
+          <div class="golpe-header">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <span style="font-size: 2rem;">${g.icone}</span>
+              <h3>${g.titulo}</h3>
+            </div>
+            <button class="btn-audio" onclick="speakText('${g.audio}')">🔊 Ouvir</button>
+          </div>
+          <div class="golpe-body">
+            <p>${g.descricao}</p>
+            <div class="box-alert">
+              <strong>⚠️ Sinais de Alerta:</strong>
+              <ul>${g.sinais.map(s => `<li>${s}</li>`).join('')}</ul>
+            </div>
+            <div class="box-protect">
+              <strong>🛡️ Como Proteger-se:</strong>
+              <p>${g.comoEvitar}</p>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    /* --- DADOS: QUIZ DE TREINO --- */
+    const quizData = [
+      {
+        pergunta: 'O seu neto manda mensagem num número novo a pedir 200 euros urgentes. O que faz?',
+        opcoes: [
+          { texto: 'Faço a transferência imediatamente para ajudar.', correta: false },
+          { texto: 'Ligue para o número ANTIGO do neto para confirmar.', correta: true },
+          { texto: 'Envio a minha palavra-passe do banco.', correta: false }
+        ],
+        explicacao: 'Excelente! Burlões fingem ser familiares. Confirme sempre pelo número antigo!'
+      },
+      {
+        pergunta: 'Recebe uma chamada do "Banco" a pedir o seu código secreto para cancelar uma fraude. O que faz?',
+        opcoes: [
+          { texto: 'Digo o código para proteger a conta.', correta: false },
+          { texto: 'Desligo a chamada, pois o banco nunca pede códigos.', correta: true }
+        ],
+        explicacao: 'Correto! Os bancos nunca solicitam códigos secretos ou palavras-passe por telefone.'
+      }
+    ];
+
+    let currentQuizIndex = 0;
+    let quizScore = 0;
+
+    function renderQuiz() {
+      if (currentQuizIndex >= quizData.length) {
+        document.getElementById('quizBox').innerHTML = `
+          <div style="text-align: center; padding: 20px;">
+            <span style="font-size: 4rem;">🏆</span>
+            <h2>Treino Concluído!</h2>
+            <p>Conseguiu <strong>${quizScore} pontos</strong>. Partilhe este conhecimento com amigos e familiares!</p>
+            <button class="btn-action" onclick="resetQuiz()">Reiniciar Treino</button>
+          </div>
+        `;
+        return;
+      }
+
+      const q = quizData[currentQuizIndex];
+      document.getElementById('quizStepText').innerText = `Desafio ${currentQuizIndex + 1} de ${quizData.length}`;
+      document.getElementById('quizScoreText').innerText = `Pontuação: ${quizScore}`;
+      document.getElementById('quizQuestion').innerText = q.pergunta;
+      document.getElementById('quizFeedback').style.display = 'none';
+
+      const container = document.getElementById('quizOptions');
+      container.innerHTML = '';
+
+      q.opcoes.forEach(opt => {
+        const btn = document.createElement('button');
+        btn.className = 'option-btn';
+        btn.innerText = opt.texto;
+        btn.onclick = () => {
+          document.querySelectorAll('#quizOptions .option-btn').forEach(b => b.disabled = true);
+          const feedback = document.getElementById('quizFeedback');
+          const feedbackText = document.getElementById('quizFeedbackText');
+
+          if (opt.correta) {
+            quizScore += 10;
+            feedbackText.innerText = "✅ " + q.explicacao;
+            speakText("Resposta correta! Parabéns!");
+          } else {
+            feedbackText.innerText = "❌ Opção incorreta. " + q.explicacao;
+            speakText("Atenção! Esta não era a melhor opção.");
+          }
+          feedback.style.display = 'block';
+        };
+        container.appendChild(btn);
+      });
+    }
+
+    function nextQuiz() {
+      currentQuizIndex++;
+      renderQuiz();
+    }
+
+    function resetQuiz() {
+      currentQuizIndex = 0;
+      quizScore = 0;
+      location.reload();
+    }
+
+    /* --- INICIALIZAÇÃO --- */
+    window.onload = () => {
+      renderDetectorQuestion();
+      renderGolpes();
+      renderQuiz();
+    };
+  </script>
+</body>
+</html>
