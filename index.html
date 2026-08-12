@@ -1,5 +1,6 @@
+
 <!DOCTYPE html>
-<html lang="pt-PT">
+<html lang="pt-PT" data-theme="light">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,12 +21,46 @@
       --light-purple: #f3e8ff;
       --bg-slate: #f1f5f9;
       --card-bg: #ffffff;
+      --card-border: #e2e8f0;
       --text-dark: #0f172a;
+      --text-muted: #475569;
+      --header-bg: #1e3a8a;
+      --nav-bg: #ffffff;
+      --nav-btn-color: #475569;
+      --control-bg: #1e293b;
+      --option-btn-bg: #f8fafc;
+      --option-btn-border: #cbd5e1;
       
       /* Tamanho base do texto (dinâmico) */
       --font-size-base: 18px;
       --font-size-title: 1.8rem;
       --font-size-sub: 1.3rem;
+    }
+
+    /* --- VARIÁVEIS MODO ESCURO --- */
+    [data-theme="dark"] {
+      --primary-blue: #3b82f6;
+      --secondary-blue: #60a5fa;
+      --light-blue: #1e293b;
+      --accent-amber: #fbbf24;
+      --light-amber: #451a03;
+      --danger-red: #ef4444;
+      --light-red: #450a0a;
+      --success-green: #10b981;
+      --light-green: #064e3b;
+      --purple: #a855f7;
+      --light-purple: #3b0764;
+      --bg-slate: #0f172a;
+      --card-bg: #1e293b;
+      --card-border: #334155;
+      --text-dark: #f8fafc;
+      --text-muted: #cbd5e1;
+      --header-bg: #0f172a;
+      --nav-bg: #1e293b;
+      --nav-btn-color: #cbd5e1;
+      --control-bg: #334155;
+      --option-btn-bg: #334155;
+      --option-btn-border: #475569;
     }
 
     * {
@@ -43,6 +78,7 @@
       display: flex;
       flex-direction: column;
       min-height: 100vh;
+      transition: background-color 0.3s, color 0.3s;
     }
 
     /* --- ACESSIBILIDADE DE FONTE --- */
@@ -64,13 +100,14 @@
 
     /* --- CABEÇALHO --- */
     header {
-      background-color: var(--primary-blue);
+      background-color: var(--header-bg);
       color: white;
       padding: 12px 16px;
       position: sticky;
       top: 0;
       z-index: 100;
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      border-bottom: 1px solid var(--card-border);
     }
 
     .header-container {
@@ -103,12 +140,13 @@
       display: flex;
       align-items: center;
       gap: 8px;
-      background-color: #1e293b;
+      background-color: var(--control-bg);
       padding: 6px 12px;
       border-radius: 12px;
+      flex-wrap: wrap;
     }
 
-    .btn-audio {
+    .btn-audio, .btn-theme {
       background-color: var(--success-green);
       color: white;
       border: none;
@@ -120,6 +158,14 @@
       align-items: center;
       gap: 6px;
       font-size: 0.9rem;
+    }
+
+    .btn-theme {
+      background-color: #475569;
+    }
+
+    .btn-theme:hover {
+      background-color: #64748b;
     }
 
     .btn-audio.speaking {
@@ -159,8 +205,8 @@
 
     /* --- NAVEGAÇÃO POR ABAS --- */
     nav {
-      background-color: white;
-      border-bottom: 2px solid #e2e8f0;
+      background-color: var(--nav-bg);
+      border-bottom: 2px solid var(--card-border);
       position: sticky;
       top: 65px;
       z-index: 90;
@@ -182,7 +228,7 @@
       padding: 8px 12px;
       border-radius: 12px;
       font-weight: bold;
-      color: #475569;
+      color: var(--nav-btn-color);
       cursor: pointer;
       display: flex;
       flex-direction: column;
@@ -225,18 +271,23 @@
       background-color: var(--card-bg);
       border-radius: 20px;
       padding: 24px;
-      border: 1px solid #e2e8f0;
+      border: 1px solid var(--card-border);
       box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
       margin-bottom: 20px;
     }
 
     .banner {
-      background: linear-gradient(135deg, var(--primary-blue), #3b82f6);
+      background: linear-gradient(135deg, #1e3a8a, #3b82f6);
       color: white;
       border-radius: 24px;
       padding: 28px;
       margin-bottom: 20px;
       box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    [data-theme="dark"] .banner {
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      border: 1px solid var(--card-border);
     }
 
     .banner-tag {
@@ -285,7 +336,7 @@
 
     .btn-action.white {
       background-color: white;
-      color: var(--primary-blue);
+      color: #1e3a8a;
     }
 
     .btn-action.red {
@@ -328,7 +379,7 @@
 
     .icon-box {
       font-size: 2rem;
-      background: white;
+      background: var(--card-bg);
       padding: 10px;
       border-radius: 16px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.05);
@@ -339,7 +390,7 @@
       display: flex;
       gap: 12px;
       align-items: flex-start;
-      background-color: #f8fafc;
+      background-color: var(--option-btn-bg);
       padding: 16px;
       border-radius: 16px;
       margin-bottom: 10px;
@@ -363,8 +414,9 @@
     .option-btn {
       width: 100%;
       text-align: left;
-      background-color: #f8fafc;
-      border: 2px solid #cbd5e1;
+      background-color: var(--option-btn-bg);
+      border: 2px solid var(--option-btn-border);
+      color: var(--text-dark);
       padding: 16px;
       border-radius: 16px;
       font-size: 1.1rem;
@@ -404,16 +456,16 @@
     /* --- LISTA DE GOLPES --- */
     .golpe-card {
       border-radius: 20px;
-      border: 1px solid #cbd5e1;
-      background-color: white;
+      border: 1px solid var(--card-border);
+      background-color: var(--card-bg);
       margin-bottom: 16px;
       overflow: hidden;
     }
 
     .golpe-header {
-      background-color: #f8fafc;
+      background-color: var(--option-btn-bg);
       padding: 16px;
-      border-bottom: 1px solid #e2e8f0;
+      border-bottom: 1px solid var(--card-border);
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -450,14 +502,14 @@
     }
 
     .phone-card {
-      background-color: #f1f5f9;
+      background-color: var(--option-btn-bg);
       padding: 16px;
       border-radius: 16px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       margin-bottom: 12px;
-      border: 1px solid #cbd5e1;
+      border: 1px solid var(--option-btn-border);
     }
 
     .phone-number {
@@ -491,7 +543,8 @@
     }
 
     .modal-box {
-      background-color: white;
+      background-color: var(--card-bg);
+      color: var(--text-dark);
       border-radius: 24px;
       max-width: 650px;
       width: 100%;
@@ -513,15 +566,15 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      border-bottom: 2px solid #fee2e2;
+      border-bottom: 2px solid var(--card-border);
       padding-bottom: 12px;
       margin-bottom: 16px;
     }
 
     .btn-close-modal {
-      background-color: #f1f5f9;
-      border: 2px solid #cbd5e1;
-      color: #0f172a;
+      background-color: var(--option-btn-bg);
+      border: 2px solid var(--option-btn-border);
+      color: var(--text-dark);
       font-size: 1.5rem;
       font-weight: bold;
       width: 44px;
@@ -573,6 +626,11 @@
       </div>
 
       <div class="accessibility-controls">
+        <!-- BOTÃO MODO ESCURO / CLARO -->
+        <button id="btnTheme" class="btn-theme" onclick="toggleTheme()" title="Alternar Modo Escuro / Claro">
+          <span id="themeIcon">🌙</span> <span id="themeText">Modo Escuro</span>
+        </button>
+
         <button id="btnAudio" class="btn-audio" onclick="toggleAudio()">
           🔊 <span id="audioText">Ouvir Voz</span>
         </button>
@@ -656,7 +714,7 @@
       </div>
 
       <div class="card">
-        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
           <h2>🔒 3 Regras de Ouro da Segurança</h2>
           <button class="btn-audio" onclick="speakText('As três regras de ouro da segurança são: Primeiramente, nunca diga as suas palavras-passe a ninguém. Em segundo lugar, nunca faça transferências com pressa. Em terceiro lugar, ligue para o número antigo do seu familiar para confirmar qualquer pedido de dinheiro.')">
             🔊 Ouvir
@@ -698,7 +756,7 @@
       </div>
 
       <div class="card" id="detectorQuizBox">
-        <div style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 12px; color: #64748b;">
+        <div style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 12px; color: var(--text-muted);">
           <span id="detectorStepText">Pergunta 1 de 4</span>
         </div>
 
@@ -739,7 +797,7 @@
       </div>
 
       <div class="card" id="quizBox">
-        <div style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 12px; color: #64748b;">
+        <div style="display: flex; justify-content: space-between; font-weight: bold; margin-bottom: 12px; color: var(--text-muted);">
           <span id="quizStepText">Desafio 1</span>
           <span id="quizScoreText" style="color: var(--purple);">Pontuação: 0</span>
         </div>
@@ -845,7 +903,7 @@
         <button class="btn-close-modal" onclick="closeEmergencyModal()" aria-label="Fechar Janela">✕</button>
       </div>
 
-      <p style="font-weight: bold; color: #334155; margin-bottom: 16px;">
+      <p style="font-weight: bold; margin-bottom: 16px;">
         Se acabou de ser vítima de um golpe ou enviou dinheiro por engano, execute estes passos sem perder tempo:
       </p>
 
@@ -861,7 +919,7 @@
       <div class="emergency-step" style="background-color: var(--light-amber); border-color: var(--accent-amber);">
         <div class="rule-number" style="background-color: var(--accent-amber); color: #0f172a;">2</div>
         <div>
-          <h3 style="color: #78350f; font-weight: bold;">Faça uma Queixa na Polícia</h3>
+          <h3 style="font-weight: bold;">Faça uma Queixa na Polícia</h3>
           <p>Ligue para o <strong>112</strong> ou vá à esquadra da PSP/GNR mais próxima para formalizar a queixa.</p>
         </div>
       </div>
@@ -877,14 +935,14 @@
       </div>
 
       <!-- Dica de Captura de Ecrã -->
-      <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; padding: 12px; border-radius: 12px; margin-bottom: 16px;">
-        <p style="margin: 0; font-size: 0.95rem; color: #475569;">
+      <div style="background-color: var(--option-btn-bg); border: 1px solid var(--option-btn-border); padding: 12px; border-radius: 12px; margin-bottom: 16px;">
+        <p style="margin: 0; font-size: 0.95rem; color: var(--text-muted);">
           💡 <strong>Importante:</strong> Guarde ou tire capturas de ecrã (print screen) de todas as conversas, números e comprovativos do burlão.
         </p>
       </div>
 
       <!-- Rodapé do Modal -->
-      <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; border-top: 1px solid #e2e8f0; padding-top: 16px;">
+      <div style="display: flex; flex-wrap: wrap; gap: 8px; justify-content: space-between; align-items: center; border-top: 1px solid var(--card-border); padding-top: 16px;">
         <button class="btn-audio" onclick="speakText('Atenção ao plano de emergência! Primeiro: ligue já para o seu banco e peça o bloqueio imediato de contas e cartões. Segundo: contacte a polícia no número 112 e apresente queixa.')">
           🔊 Ouvir Alerta
         </button>
@@ -909,6 +967,28 @@
     let audioEnabled = true;
     let isSpeaking = false;
     let currentTab = 'home';
+
+    /* --- MODO ESCURO / CLARO --- */
+    function toggleTheme() {
+      const html = document.documentElement;
+      const currentTheme = html.getAttribute('data-theme');
+      const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+      
+      html.setAttribute('data-theme', newTheme);
+
+      const themeIcon = document.getElementById('themeIcon');
+      const themeText = document.getElementById('themeText');
+
+      if (newTheme === 'dark') {
+        themeIcon.innerText = '☀️';
+        themeText.innerText = 'Modo Claro';
+        speakText("Modo escuro ativado.");
+      } else {
+        themeIcon.innerText = '🌙';
+        themeText.innerText = 'Modo Escuro';
+        speakText("Modo claro ativado.");
+      }
+    }
 
     /* --- SÍNTESE DE VOZ --- */
     function speakText(text) {
